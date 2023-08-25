@@ -64,11 +64,11 @@ bool CustomPriorityQueue<T, T2, T3>::remove(const T& value)
 }
 
 AStar::AStar(const std::string& filepath)
-    : m_maze(new Maze(filepath)) // CHECKME why cant maze be a object instead of ptr? // FIX TESTE 4
-    , m_renderer(new Renderer(*m_maze, 600, 600)) // if so change renderer also
+    : m_maze(filepath)
+    , m_renderer(m_maze, 600, 600)
 {
-    Cell& start = m_maze->startCell();
-    const Cell& end = m_maze->endCell();
+    Cell& start = m_maze.startCell();
+    const Cell& end = m_maze.endCell();
     unsigned currentCost = 0;
     unsigned heuristicCost = manhattanDistance(start, end);
     m_root = new Node(nullptr, &start, currentCost, heuristicCost);
@@ -98,8 +98,6 @@ AStar::~AStar()
         m_leaves.pop();
     }
     DEBUG_PRINTLN("Allocated " << m_allocatedNodes << " nodes and deleted " << m_deletedNodes << " nodes.");
-    delete m_renderer;
-    delete m_maze;
 }
 
 void
@@ -112,7 +110,7 @@ AStar::expandLeaves()
     std::vector<Cell*> childs;
 
     {
-        std::vector<Cell*> availableCells = m_maze->availableMoves(*node->cell());
+        std::vector<Cell*> availableCells = m_maze.availableMoves(*node->cell());
         for(Cell* c : availableCells)
         {
             if(!c->visited()) childs.push_back(c);
@@ -120,7 +118,7 @@ AStar::expandLeaves()
     }
 
     node->cell()->setVisited();
-    m_renderer->update();
+    m_renderer.update();
 
     for(Cell* c : childs)
     {
@@ -137,9 +135,9 @@ AStar::expandLeaves()
         }
         else{
             c->setDiscovered();
-            m_renderer->update();
+            m_renderer.update();
 
-            Node* newNode = node->addChild(c, node->currentCost() + 1, manhattanDistance(*c, m_maze->endCell()));
+            Node* newNode = node->addChild(c, node->currentCost() + 1, manhattanDistance(*c, m_maze.endCell()));
             DEBUG_PRINTLN("Added child [" << newNode->cell()->linePos() << "," << newNode->cell()->columnPos() << "] : cost "\
                 << newNode->currentCost() + newNode->heuristicCost());
             m_cellToNode[c] = newNode;
@@ -213,7 +211,7 @@ AStar::removeDeadEnds(Node* node)
         }
         node = parent;
         std::this_thread::sleep_for(std::chrono::milliseconds(300));
-        m_renderer->update();
+        m_renderer.update();
     }
 }
 
@@ -235,11 +233,11 @@ AStar::advance()
         m_result = Result::END_REACHED;
     }
     std::this_thread::sleep_for(std::chrono::milliseconds(300));
-    m_renderer->update();
+    m_renderer.update();
 };
 
 std::list<const Cell*>
-AStar::getPath() const
+AStar::getPath()
 {
     assert(m_finished);
     assert(m_leaves.top()->cell()->value() == Cell::Value::END);
@@ -259,7 +257,7 @@ AStar::getPath() const
 
         c->setPath();
         std::this_thread::sleep_for(std::chrono::milliseconds(40));
-        m_renderer->update();
+        m_renderer.update();
     }
 
     return result;

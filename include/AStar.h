@@ -9,6 +9,9 @@
 #ifndef A_STAR
 #define A_STAR
 
+#include "Maze.h"
+#include "Renderer.h"
+
 #include <list>
 #include <queue>
 #include <set>
@@ -16,8 +19,6 @@
 #include <unordered_map>
 
 class Cell;
-class Maze;
-class Renderer;
 
 class Node
 {
@@ -88,14 +89,14 @@ public:
     bool finished() const { return m_finished; }
     Result result() const { return m_result; }
 
-    std::list<const Cell*> getPath() const;
+    std::list<const Cell*> getPath();
 private:
     void expandLeaves();
     void removeDeadEnds(Node* node);
     void swapParents(Node* childNode, Node* newParent);
 
 private:
-    Maze* m_maze;
+    Maze m_maze;
     bool m_finished = false;
     Result m_result;
     Node* m_root;
@@ -108,7 +109,7 @@ private:
     // leaves are nodes yet to be expanded (searched for available moves)  
     CustomPriorityQueue<Node*, std::vector<Node*>, NodeCostComparison> m_leaves;
 
-    Renderer* m_renderer;
+    Renderer m_renderer;
 
     #ifdef DEBUG
         unsigned m_allocatedNodes = 1; // skipping root as is always allocated
