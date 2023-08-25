@@ -20,7 +20,7 @@ class Search
 public:
     explicit Search(const std::string& filepath);
     void search();
-    std::string resultPathToStr() const;
+    std::string resultPathToStr();
 private:
     AStar m_aStar;
 };

@@ -30,7 +30,7 @@ Search::search()
 }
 
 std::string
-Search::resultPathToStr() const
+Search::resultPathToStr()
 {
     assert(m_aStar.finished());
 
@@ -42,7 +42,7 @@ Search::resultPathToStr() const
     else
     {
         assert(res == AStar::Result::END_REACHED);
-        std::list<const Cell*> path = m_aStar.getPath();
+        std::list<const Cell*> path = m_aStar.getPath(); // this is non const because updates the renderer
         for(const Cell* c : path)
         {
             assert(c);
