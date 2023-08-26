@@ -32,7 +32,7 @@ Once the path is found, the cells that represent the path are colored by yellow.
 This program depends on SDL2. To install it, run
 `sudo apt-get install libsdl2-dev`
 
-It can be built using the provided Makefile. You will need To build it, run `make` on the root directory. You can also build a debug version with `make debug`.
+It can be built using the provided Makefile. To build it, run `make` on the root directory. You can also build a debug version with `make debug`.
 Use `make clean` to remove all built files (*.o and *.out).
 
 If you have any problems building/linking it with SDL2, check where was the library installed on your system and update the Makefile.
