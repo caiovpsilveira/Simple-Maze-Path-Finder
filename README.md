@@ -8,7 +8,7 @@ This program outputs a minimum path for the inputted maze, if it exists, "Unreac
 The maze can be inputted in a file, representing the maze as a grid of maze cells.
 Each cell can be of four values: "S" for start cell, "E" for end cell, "F" for maze paths (free), and "B", for maze walls (blocked).
 The first value of the input must be L, the number of lines in the maze grid, followed by C, the number of columns in the maze grid.
-After that, the cell values, by column. Examples of input can be found in the directory "tests".
+After that, the cell values, by column. There must be exactly one start cell and one end cell. Examples of input can be found in the directory "tests".
 
 ## Output
 If the path is found, the path found will be collored by yellow, and the sequence of cells travelled will be outputted. The rendered maze will be updated after each step done by the algorithm. Note that this program outputs only the first minimum path it finds.
@@ -28,7 +28,7 @@ Dead end cells are colored by dark purple.
 
 Once the path is found, the cells that represent the path are colored by yellow.
 
-## Building
+## Building and running
 This program depends on SDL2. To install it, run
 `sudo apt-get install libsdl2-dev`
 
@@ -36,6 +36,8 @@ It can be built using the provided Makefile. To build it, run `make` on the root
 Use `make clean` to remove all built files (*.o and *.out).
 
 If you have any problems building/linking it with SDL2, check where was the library installed on your system and update the Makefile.
+
+To run it, run `./program.out maze_filepath`.
 
 # Implementation details
 The search is done using the A* (A star) algorithm, with the manhattan distance between the current cell and the end cell as the heuristic.
