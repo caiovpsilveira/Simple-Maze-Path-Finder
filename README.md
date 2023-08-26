@@ -1,5 +1,5 @@
 # Simple-Maze-Path-Finder
-Simple maze path finder using A* search algorithm and SDL2 to render
+Simple maze path finder written in C++ using A* search algorithm and SDL2 to render
 
 # About
 This program outputs a minimum path for the inputted maze, if it exists, "Unreachable", otherwise. This was done as an assignment of my college AI course, in August of 2023.
