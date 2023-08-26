@@ -1,24 +1,24 @@
-# Defina o compilador e as opções de compilação
+# Compiler settings
 CXX = g++
 CXXFLAGS = -Wall -Wextra -Iinclude -I/usr/include/SDL2
 
-# Diretórios
+# Directories
 SRC_DIR = src
 OBJ_DIR = obj
 
-# Lista de arquivos fonte
+# Source files list
 SRCS = $(wildcard $(SRC_DIR)/*.cpp)
 
-# Gere nomes de arquivos objeto correspondentes
+# Object files name
 OBJS = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRCS))
 
-# Nome do executável
+# Binary name
 TARGET = program.out
 
-# Flags do linker
+# Linker flags
 LDFLAGS = -lSDL2
 
-# Flags de debug
+# Debug flags (make debug)
 DEBUG_CXXFLAGS = -DDEBUG
 
 all: $(TARGET)
