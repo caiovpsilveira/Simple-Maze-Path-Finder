@@ -25,8 +25,9 @@ Start   Blocked
 Free    Free
 Blocked End
 
-The output will be the sequence traversed in the grid, [line, column]
-[0, 0] is the top left grid cell, if the end can be reached,
+The output will be the sequence traversed in the grid, 
+if the end can be reached, as a sequence of each [line, column]
+cell in the path. [0, 0] is the top left grid cell.
 "Unreachable", otherwise.
 
 This program assumes that frontier grid cells (ex [-1, 0] and [0, -1])
@@ -41,7 +42,7 @@ int main(int argc, char** argv)
 {
     if(argc != 2)
     {
-        std::cout << "Usage: " <<argv[0] << " filepath" << std::endl;
+        std::cout << "Usage: " << argv[0] << " filepath" << std::endl;
         exit(-1);
     }
 

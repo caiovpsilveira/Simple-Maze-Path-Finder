@@ -32,6 +32,8 @@ Renderer::Renderer(const Maze& maze, unsigned w, unsigned h)
     : m_maze(maze)
     , m_windowWidth(w)
     , m_windowHeight(h)
+    , m_window(nullptr)
+    , m_renderer(nullptr)
 {
     initWindow("Maze", m_windowHeight, m_windowWidth);
     initRenderer();

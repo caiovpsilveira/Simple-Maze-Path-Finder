@@ -30,6 +30,8 @@ Node::addChild(Cell* childCell, unsigned currentCost, unsigned heuristicCost)
 {
     Node* n = new Node(this, childCell, currentCost, heuristicCost);
     incActiveChilds();
+    DEBUG_PRINTLN("Added child [" << n->cell()->linePos() << "," << n->cell()->columnPos() << "] : cost "\
+        << n->currentCost() + n->heuristicCost());
     return n;
 }
 
@@ -57,6 +59,9 @@ bool CustomPriorityQueue<T, T2, T3>::remove(const T& value)
     }    
     else {
         // remove element and re-heap
+        // TODO: implement heap removal function
+        // There is no need to re-heap when removing from
+        // an already built heap.
         this->c.erase(it);
         std::make_heap(this->c.begin(), this->c.end(), this->comp);
     }
@@ -75,7 +80,7 @@ AStar::AStar(const std::string& filepath)
     m_root->cell()->setDiscovered();
     m_root->cell()->setVisited();
     m_leaves.push(m_root);
-    DEBUG_PRINTLN("Finished building tree and starting leaf. Root cell is [" << m_root->cell()->linePos() << "," << m_root->cell()->columnPos() << "].");
+    DEBUG_PRINTLN("Finished building starting leaf. Root cell is [" << m_root->cell()->linePos() << "," << m_root->cell()->columnPos() << "].");
 };
 
 AStar::~AStar()
@@ -138,8 +143,6 @@ AStar::expandLeaves()
             m_renderer.update();
 
             Node* newNode = node->addChild(c, node->currentCost() + 1, manhattanDistance(*c, m_maze.endCell()));
-            DEBUG_PRINTLN("Added child [" << newNode->cell()->linePos() << "," << newNode->cell()->columnPos() << "] : cost "\
-                << newNode->currentCost() + newNode->heuristicCost());
             m_cellToNode[c] = newNode;
             #ifdef DEBUG
                 ++m_allocatedNodes;
@@ -210,7 +213,7 @@ AStar::removeDeadEnds(Node* node)
             parent->decActiveChilds();
         }
         node = parent;
-        std::this_thread::sleep_for(std::chrono::milliseconds(300));
+        std::this_thread::sleep_for(std::chrono::milliseconds(400));
         m_renderer.update();
     }
 }
@@ -232,7 +235,7 @@ AStar::advance()
         m_finished = true;
         m_result = Result::END_REACHED;
     }
-    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+    std::this_thread::sleep_for(std::chrono::milliseconds(400));
     m_renderer.update();
 };
 
