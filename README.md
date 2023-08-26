@@ -44,7 +44,7 @@ The search is done using the A* (A star) algorithm, with the manhattan distance 
 Since this heuristic is admissible, it is guaranteed that the algorithm will find an optimal solution.
 
 It uses a mimimum heap as a priority queue to store the leaves. This makes the algorithm always expand the tree with the lowest cost (current cost + heuristic cost) by each step.
-This also makes inserting new leaves a cost of O(n), where n is the number of current leaves.
+This also makes inserting new leaves a cost of O(log n), where n is the number of current leaves.
 
 As said, each step the lowest cost leaf is expanded. New discovered leaves are inserted and the expanded leaf is set as visited, removed from the queue and added as a inner node.
 
